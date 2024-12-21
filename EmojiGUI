@@ -259,7 +259,15 @@ player.Chatted:Connect(ecmds)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/HoangHien2k3/RBXScript_AR/refs/heads/main/KeepScript"))()
 
 if _G.ExecuteScriptAfterTeleport then
-    _G.ExecuteScriptAfterTeleport(loadstring(game:HttpGet(''))())
+    _G.ExecuteScriptAfterTeleport(loadstring(game:HttpGet('https://raw.githubusercontent.com/HoangHien2k3/RBXScript/refs/heads/main/EmojiGUI'))())
 else
     warn("Failed to do RE:Execute script after teleportation.")
 end
+
+-- Information --
+local St = game:GetService("StarterGui")
+St:SetCore("SendNotification", {
+    Title = "Emoji Chat GUI",
+    Text = "Simple, fast and can spam if u want... make by HoangHien2k3 for fun!",
+    Duration = 1,
+})
