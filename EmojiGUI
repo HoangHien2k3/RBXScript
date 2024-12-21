@@ -254,3 +254,12 @@ function ecmds(str)
 end
 
 player.Chatted:Connect(ecmds)
+
+-- RE:Execute --
+loadstring(game:HttpGet("https://raw.githubusercontent.com/HoangHien2k3/RBXScript_AR/refs/heads/main/KeepScript"))()
+
+if _G.ExecuteScriptAfterTeleport then
+    _G.ExecuteScriptAfterTeleport(loadstring(game:HttpGet(''))())
+else
+    warn("Failed to do RE:Execute script after teleportation.")
+end
