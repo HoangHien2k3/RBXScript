@@ -43,7 +43,7 @@ ESF.BackgroundTransparency = 0.8
 ESF.Position = UDim2.new(0.02, 0, 0.02, 0)
 ESF.Size = UDim2.new(0.96, 0, 0.96, 0)
 ESF.ScrollBarThickness = 0.1
-ESF.CanvasSize = UDim2.new(0, 0, 0, 4)
+ESF.CanvasSize = UDim2.new(0, 0, 0.01, 0)
 
 OC = Instance.new("TextButton")
 OC.Parent = NewScreenGui
@@ -178,7 +178,7 @@ function UpdateCS()
     local emojiCount = #ESF:GetChildren()  -- Get the number of children in ESF (emoji buttons)
     local heightPerEmoji = 0.06           -- Height taken up by each emoji
     local newHeight = emojiCount * heightPerEmoji  -- Calculate new height
-    ESF.CanvasSize = UDim2.new(0, 0, 0, newHeight)  -- Update CanvasSize
+    ESF.CanvasSize = UDim2.new(0, 0, newHeight, 0)  -- Update CanvasSize
 end
 
 function NewEmoji(BP, POS, T1)
