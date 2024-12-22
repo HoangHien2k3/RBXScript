@@ -34,6 +34,9 @@ current_delays = 0.05
 for _, previous in ipairs(game:GetService("CoreGui"):GetChildren()) do
     if previous:IsA("ScreenGui") and previous.Name == psg then
         pcall(function()
+            if _G.OffSpam then
+                _G.OffSpam = false
+            end
             previous:Destroy()
         end)
     end
@@ -270,6 +273,8 @@ next_page.MouseButton1Click:Connect(function()
         next_page.Text = "0"
     end
 end)
+
+_G.OffSpam = iSpam
 
 -- Emoji Data --
 
