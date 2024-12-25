@@ -1,4 +1,4 @@
--- Blox Fruits: DE_Commands --
+-- DE_Commands --
 local plrs, plr, cr, hm, hrp, hrp_pos, hm_health, ts, stg
 local tweencommands_table, tweenspeeds_table, teleport_instance_table
 local twspeed, current_tw, pre_username
@@ -85,90 +85,93 @@ function printplrs()
     end
 end
 
--- main function --
+local IsActivated = false
 function DE_Commands(Aesthetic)
     local wis = string.split(Aesthetic, " ")
-    
-    if table.find(tweencommands_table, wis[1]) then
-        if #wis == 2 then
-            local specifics_u = wis[2]
-            local correct_specifics_u = correct_username(specifics_u)
-            if correct_specifics_u then
-                local target_user = correct_specifics_u
-                local target_user_hrp = target_user.Character and target_user.Character:FindFirstChild("HumanoidRootPart")
-                if target_user_hrp then
-                    local target_user_pos = target_user_hrp.Position + Vector3.new(0, 1, 0)
-                    local plr_hrp = plr.Character:FindFirstChild("HumanoidRootPart")
-                    if plr_hrp then
-                        cancel_prtw()
-                        pre_username = specifics_u
-                        local dur2 = ct_duration(plr_hrp.Position, target_user_pos, twspeed)
-                        local twi4 = TweenInfo.new(dur2, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
-                        local tw_goal = {CFrame = CFrame.new(target_user_pos)}
-                        current_tw = ts:Create(plr_hrp, twi4, tw_goal)
-                        ntf(success_notify_title, "Tweening Progress: now tweening to players [" .. correct_specifics_u.Name .. "]", 2)
-                        current_tw:Play()
-                        current_tw.Completed:Connect(clear_username_storage)
+    if not IsActivated then
+        IsActivated = true
+        if table.find(tweencommands_table, wis[1]) then
+            if #wis == 2 then
+                local specifics_u = wis[2]
+                local correct_specifics_u = correct_username(specifics_u)
+                if correct_specifics_u then
+                    local target_user = correct_specifics_u
+                    local target_user_hrp = target_user.Character and target_user.Character:FindFirstChild("HumanoidRootPart")
+                    if target_user_hrp then
+                        local target_user_pos = target_user_hrp.Position + Vector3.new(0, 1, 0)
+                        local plr_hrp = plr.Character:FindFirstChild("HumanoidRootPart")
+                        if plr_hrp then
+                            cancel_prtw()
+                            pre_username = specifics_u
+                            local dur2 = ct_duration(plr_hrp.Position, target_user_pos, twspeed)
+                            local twi4 = TweenInfo.new(dur2, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
+                            local tw_goal = {CFrame = CFrame.new(target_user_pos)}
+                            current_tw = ts:Create(plr_hrp, twi4, tw_goal)
+                            ntf(success_notify_title, "Tweening Progress: now tweening to players [" .. correct_specifics_u.Name .. "]", 2)
+                            current_tw:Play()
+                            current_tw.Completed:Connect(clear_username_storage)
+                        end
+                    end
+                end
+            elseif #wis == 3 then
+                if wis[2] == "?" then
+                    print("Tweening Command Alliases: -to, -moveto, -goto, -flyto")
+                    ntf(error_notify_title, "Current command alliases: -to, -moveto, -goto, -flyto", 2.5)
+                end
+            end
+        elseif table.find(tweenspeeds_table, wis[1]) and wis[2] then
+            local new_tspeed = wis[2]
+            twspeed = new_tspeed
+            ntf(success_notify_title, "Tweening Progress: tweening speed set " .. wis[2], 1.5)
+            if wis[2] == "?" then
+                print("Tweening Command Speed Alliases: -tspeed, -tweenspeed")
+                ntf(error_notify_title, "Current command alliases: -tspeed, -tweenspeed", 2.5)
+            end
+        elseif table.find(teleport_instance_table, wis[1]) then
+            if #wis == 2 then
+                local match_user = wis[2]
+                local correct_match_user = correct_username(match_user)
+                if correct_match_user then
+                    ntf(success_notify_title, "Instantly Teleport: teleport to players [" .. correct_match_user.Name .. "]", 2)
+                    tpto_instance(correct_match_user)
+                    game.Players.LocalPlayer.Character.Humanoid.Health = 0
+                else
+                    ntf(error_notify_title, "InCompleted: not found players [" .. wis[2] .. "]", 2)
+                end
+            elseif #wis == 3 then
+                if wis[2] == "?" then
+                    print("Teleport Instance Command Alliases: -tp, -teleport, -transfer")
+                    ntf(error_notify_title, "Current command alliases: -tp, -teleport, -transfer", 2.5)
+                end
+            end
+        elseif wis[1] == "-plr" then
+            if #wis == 2 then
+                if wis[2] == "list" then
+                    printplrs()
+                    if game:GetService("CoreGui"):FindFirstChild("DeveloperConsole") == nil then
+                        game:GetService("StarterGui"):SetCore("DevConsoleVisible", true)
                     end
                 end
             end
-        elseif #wis == 3 then
-            if wis[2] == "?" then
-                print("Tweening Command Alliases: -to, -moveto, -goto, -flyto")
-                ntf(error_notify_title, "Current command alliases: -to, -moveto, -goto, -flyto", 2.5)
+        elseif wis[1] == "-redz" then
+            paste("https://raw.githubusercontent.com/NganHa2k3/Others/refs/heads/Creator/BloxFruits_ScriptHub_1")
+            print("Loaded REDZ Script Hub by Creator 'realredz' this script not by me, i'm just put in here for quickly loaded script.")
+        elseif wis[1] == "-dex" then
+            paste("https://raw.githubusercontent.com/HoangHien2k3/MoonLight/refs/heads/main/Roblox_DexExplorer_4Mobile")
+            print("Loaded Dex Explorer Script by Moon, make for inf yield edited by someone for mobile version... this is a backup saved!")
+        elseif wis[1] == "-rspy" then
+            paste("https://raw.githubusercontent.com/HoangHien2k3/MoonLight/refs/heads/main/Roblox_RemoteEvents_Spy")
+            print("Loaded Remote Events Spy Script: this script use to catch remote events function... i guess it's what it call?")
+        elseif wis[1] == "-infyield" then
+            paste("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source")
+            print("Loaded Infinite Yield: a popular admin script!")
+        elseif wis[1] == "-cmds" then
+            print("List of all commands: -to [username/?], -tspeed [speed/?], -tp [username/?], -plr [list], -redz, -dex, -rspy, -infyield, -cmds")
+            if game:GetService("CoreGui"):FindFirstChild("DeveloperConsole") == nil then
+                game:GetService("StarterGui"):SetCore("DevConsoleVisible", true)
             end
         end
-    elseif table.find(tweenspeeds_table, wis[1]) and wis[2] then
-        local new_tspeed = wis[2]
-        twspeed = new_tspeed
-        ntf(success_notify_title, "Tweening Progress: tweening speed set " .. wis[2], 1.5)
-        if wis[2] == "?" then
-            print("Tweening Command Speed Alliases: -tspeed, -tweenspeed")
-            ntf(error_notify_title, "Current command alliases: -tspeed, -tweenspeed", 2.5)
-        end
-    elseif table.find(teleport_instance_table, wis[1]) then
-        if #wis == 2 then
-            local match_user = wis[2]
-            local correct_match_user = correct_username(match_user)
-            if correct_match_user then
-                ntf(success_notify_title, "Instantly Teleport: teleport to players [" .. correct_match_user.Name .. "]", 2)
-                tpto_instance(correct_match_user)
-                game.Players.LocalPlayer.Character.Humanoid.Health = 0
-            else
-                ntf(error_notify_title, "InCompleted: not found players [" .. wis[2] .. "]", 2)
-            end
-        elseif #wis == 3 then
-            if wis[2] == "?" then
-                print("Teleport Instance Command Alliases: -tp, -teleport, -transfer")
-                ntf(error_notify_title, "Current command alliases: -tp, -teleport, -transfer", 2.5)
-            end
-        end
-    elseif wis[1] == "-plr" then
-        if #wis == 2 then
-            if wis[2] == "list" then
-                printplrs()
-                if game:GetService("CoreGui"):FindFirstChild("DeveloperConsole") == nil then
-                    game:GetService("StarterGui"):SetCore("DevConsoleVisible", true)
-                end
-            end
-        end
-    elseif wis[1] == "-redz" then
-        paste("https://raw.githubusercontent.com/NganHa2k3/Others/refs/heads/Creator/BloxFruits_ScriptHub_1")
-        print("Loaded REDZ Script Hub by Creator 'realredz' this script not by me, i'm just put in here for quickly loaded script.")
-    elseif wis[1] == "-dex" then
-        paste("https://raw.githubusercontent.com/HoangHien2k3/MoonLight/refs/heads/main/Roblox_DexExplorer_4Mobile")
-        print("Loaded Dex Explorer Script by Moon, make for inf yield edited by someone for mobile version... this is a backup saved!")
-    elseif wis[1] == "-rspy" then
-        paste("https://raw.githubusercontent.com/HoangHien2k3/MoonLight/refs/heads/main/Roblox_RemoteEvents_Spy")
-        print("Loaded Remote Events Spy Script: this script use to catch remote events function... i guess it's what it call?")
-    elseif wis[1] == "-infyield" then
-        paste("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source")
-        print("Loaded Infinite Yield: a popular admin script!")
-    elseif wis[1] == "-cmds" then
-        print("List of all commands: -to [username/?], -tspeed [speed/?], -tp [username/?], -plr [list], -redz, -dex, -rspy, -infyield, -cmds")
-        if game:GetService("CoreGui"):FindFirstChild("DeveloperConsole") == nil then
-            game:GetService("StarterGui"):SetCore("DevConsoleVisible", true)
-        end
+        IsActivated = false
     end
 end
 
