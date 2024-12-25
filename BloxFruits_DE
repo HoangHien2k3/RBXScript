@@ -1,24 +1,37 @@
-local plrs, plr, h1, h2, plr_pos, plr_health, tweenspeed, ts, crtw
-local tweening_table
-local currentTween = nil
-local previousUsername = nil
+-- Blox Fruits: DE_Commands --
+local plrs, plr, cr, hm, hrp, hrp_pos, hm_health, ts, stg
+local tweencommands_table, tweenspeeds_table, teleport_instance_table
+local twspeed, current_tw, pre_username
+local paste_notify_title, error_notify_title, success_notify_title
 
 plrs = game:GetService("Players")
 ts = game:GetService("TweenService")
+stg = game:GetService("StarterGui")
+
 plr = plrs.LocalPlayer
-h1 = plr.Character.Humanoid
-h2 = plr.Character.HumanoidRootPart
-plr_pos = h2.Position
-plr_health = h1.Health
-tweenspeed = 250
+cr = plr.Character
+hm = cr.Humanoid
+hrp = cr.HumanoidRootPart
+hrp_pos = hrp.Position
+hm_health = hm.Health
 
-tweening_table = {"-goto", "-moveto", "-to", "-flyto"}
+twspeed = 250
+current_tw = nil
+pre_username = nil
 
-function autocorrect_players(input)
-    for _, player in ipairs(plrs:GetPlayers()) do
-        if string.lower(player.Name):sub(1, #input) == string.lower(input) or
-        string.lower(player.DisplayName):sub(1, #input) == string.lower(input) then
-            return player
+paste_notify_title = "《Loaded Script》"
+error_notify_title = "《Alert》"
+success_notify_title = "《Success》"
+
+tweencommands_table = {"-to", "-moveto", "-goto", "-flyto"}
+tweenspeeds_table = {"-tspeed", "-tweenspeed"}
+teleport_instance_table = {"-tp", "-teleport", "-transfer"}
+
+function correct_username(plrs_name)
+    for _, findplrs in ipairs(plrs:GetPlayers()) do
+        if string.lower(findplrs.Name):sub(1, #plrs_name) == string.lower(plrs_name) or
+        string.lower(findplrs.DisplayName):sub(1, #plrs_name) == string.lower(plrs_name) then
+            return findplrs
         end
     end
     return nil
@@ -30,60 +43,127 @@ function ct_duration(spos, epos, spd)
 end
 
 function ct_info(spos, epos)
-    local du = ct_duration(spos, epos, tweenspeed)
-    return TweenInfo.new(du, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
+    local dur = ct_duration(spos, epos, twspeed)
+    return TweenInfo.new(dur, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
 end
 
-function cancel_current_tween()
-    if currentTween and currentTween.Playing then
-        currentTween:Cancel()
+function cancel_prtw()
+    if current_tw and current_tw.Playing then
+        current_tw:Cancel()
     end
 end
 
-function DE_Commands(message)
-    local feather = string.split(message, " ")
+function clear_username_storage()
+    current_tw = nil
+    pre_username = nil
+end
+
+function ntf(title_ntf, text_ntf, dur_ntf)
+    stg:SetCore("SendNotification", {
+        Title = title_ntf,
+        Text = text_ntf,
+        Duration = dur_ntf,
+    })
+end
+
+function paste(url)
+    loadstring(game:HttpGet(url))()
+    ntf(paste_notify_title, "Successfully Loaded Script from URL: " .. url, 2.5)
+end
+
+function tpto_instance(tp_user)
+    if tp_user and tp_user.Character and tp_user.Character:FindFirstChild("HumanoidRootPart") then
+        plr.Character:SetPrimaryPartCFrame(tp_user.Character.HumanoidRootPart.CFrame)
+    else
+        print("failed do -teleport to players, try again later.")
+    end
+end
+
+function printplrs()
+    for _, allplr in ipairs(plrs:GetPlayers()) do
+        print(allplr.Name)
+    end
+end
+
+-- main function --
+function DE_Commands(Aesthetic)
+    local wis = string.split(Aesthetic, " ")
     
-    if table.find(tweening_table, feather[1]) then
-        if #feather == 2 then
-            local specific_u = feather[2]
-            local c_specific = autocorrect_players(specific_u)
-            
-            if c_specific then
-                local target_player = c_specific
-                local target_humanoidRootPart = target_player.Character and target_player.Character:FindFirstChild("HumanoidRootPart")
-                
-                if target_humanoidRootPart then
-                    local target_position = target_humanoidRootPart.Position + Vector3.new(0, 1, 0)
-                    local plr_humanoidRootPart = plr.Character:FindFirstChild("HumanoidRootPart")
-
-                    if plr_humanoidRootPart then
-                        cancel_current_tween()
-
-                        previousUsername = specific_u
-
-                        local duration = ct_duration(plr_humanoidRootPart.Position, target_position, tweenspeed)
-
-                        local tweenInfo = TweenInfo.new(duration, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
-                        
-                        local goal = {CFrame = CFrame.new(target_position)}
-                        currentTween = ts:Create(plr_humanoidRootPart, tweenInfo, goal)
-                        
-                        currentTween:Play()
-
-                        currentTween.Completed:Connect(function()
-                            previousUsername = nil
-                            currentTween = nil
-                        end)
+    if table.find(tweencommands_table, wis[1]) then
+        if #wis == 2 then
+            local specifics_u = wis[2]
+            local correct_specifics_u = correct_username(specifics_u)
+            if correct_specifics_u then
+                local target_user = correct_specifics_u
+                local target_user_hrp = target_user.Character and target_user.Character:FindFirstChild("HumanoidRootPart")
+                if target_user_hrp then
+                    local target_user_pos = target_user_hrp.Position + Vector3.new(0, 1, 0)
+                    local plr_hrp = plr.Character:FindFirstChild("HumanoidRootPart")
+                    if plr_hrp then
+                        cancel_prtw()
+                        pre_username = specifics_u
+                        local dur2 = ct_duration(plr_hrp.Position, target_user_pos, twspeed)
+                        local twi4 = TweenInfo.new(dur2, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
+                        local tw_goal = {CFrame = CFrame.new(target_user_pos)}
+                        current_tw = ts:Create(plr_hrp, twi4, tw_goal)
+                        ntf(success_notify_title, "Tweening Progress: now tweening to players [" .. correct_specifics_u.Name .. "]", 2)
+                        current_tw:Play()
+                        current_tw.Completed:Connect(clear_username_storage)
                     end
                 end
             end
+        elseif #wis == 3 then
+            if wis[2] == "?" then
+                print("Tweening Command Alliases: -to, -moveto, -goto, -flyto")
+                ntf(error_notify_title, "Current command alliases: -to, -moveto, -goto, -flyto", 2.5)
+            end
+        end
+    elseif table.find(tweenspeeds_table, wis[1]) and wis[2] then
+        local new_tspeed = wis[2]
+        twspeed = new_tspeed
+        ntf(success_notify_title, "Tweening Progress: tweening speed set " .. wis[2], 1.5)
+        if wis[2] == "?" then
+            print("Tweening Command Speed Alliases: -tspeed, -tweenspeed")
+            ntf(error_notify_title, "Current command alliases: -tspeed, -tweenspeed", 2.5)
+        end
+    elseif table.find(teleport_instance_table, wis[1]) then
+        if #wis == 2 then
+            local match_user = wis[2]
+            local correct_match_user = correct_username(match_user)
+            if correct_match_user then
+                ntf(success_notify_title, "Instantly Teleport: teleport to players [" .. correct_match_user.Name .. "]", 2)
+                tpto_instance(correct_match_user)
+                hm_health = 0
+            else
+                ntf(error_notify_title, "InCompleted: not found players [" .. wis[2] .. "]", 2)
+            end
+        elseif #wis == 3 then
+            if wis[2] == "?" then
+                print("Teleport Instance Command Alliases: -tp, -teleport, -transfer")
+                ntf(error_notify_title, "Current command alliases: -tp, -teleport, -transfer", 2.5)
+            end
+        end
+    elseif wis[1] == "-plr" then
+        if #wis == 2 then
+            if wis[2] == "list" then
+                printplrs()
+                if game:GetService("CoreGui"):FindFirstChild("DeveloperConsole") == nil then
+                    game:GetService("StarterGui"):SetCore("DevConsoleVisible", true)
+                end
+            end
+        end
+    elseif wis[1] == "-cmds" then
+        print("List of all commands: -to [username/?], -tspeed [speed/?], -tp [username/?], -plr [list], -cmds")
+        if game:GetService("CoreGui"):FindFirstChild("DeveloperConsole") == nil then
+            game:GetService("StarterGui"):SetCore("DevConsoleVisible", true)
         end
     end
 end
 
+plr.Chatted:Connect(DE_Commands)
+ntf("Blox Fruits Commands Script", "Make by HH2k3, alot useful commands 'type -cmds' to shown all commands!", 4)
+
 plr.CharacterAdded:Connect(function()
-    wait(2)
+    wait(3.5)
     plr.Chatted:Connect(DE_Commands)
 end)
-
-plr.Chatted:Connect(DE_Commands)
