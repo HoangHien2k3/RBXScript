@@ -48,7 +48,7 @@ function ct_info(spos, epos)
 end
 
 function cancel_prtw()
-    if current_tw and current_tw.Playing then
+    if current_tw then
         current_tw:Cancel()
     end
 end
@@ -133,7 +133,7 @@ function DE_Commands(Aesthetic)
             if correct_match_user then
                 ntf(success_notify_title, "Instantly Teleport: teleport to players [" .. correct_match_user.Name .. "]", 2)
                 tpto_instance(correct_match_user)
-                hm_health = 0
+                game.Players.LocalPlayer.Character.Humanoid.Health = 0
             else
                 ntf(error_notify_title, "InCompleted: not found players [" .. wis[2] .. "]", 2)
             end
@@ -152,8 +152,20 @@ function DE_Commands(Aesthetic)
                 end
             end
         end
+    elseif wis[1] == "-redz" then
+        paste("https://raw.githubusercontent.com/NganHa2k3/Others/refs/heads/Creator/BloxFruits_ScriptHub_1")
+        print("Loaded REDZ Script Hub by Creator 'realredz' this script not by me, i'm just put in here for quickly loaded script.")
+    elseif wis[1] == "-dex" then
+        paste("https://raw.githubusercontent.com/HoangHien2k3/MoonLight/refs/heads/main/Roblox_DexExplorer_4Mobile")
+        print("Loaded Dex Explorer Script by Moon, make for inf yield edited by someone for mobile version... this is a backup saved!")
+    elseif wis[1] == "-rspy" then
+        paste("https://raw.githubusercontent.com/HoangHien2k3/MoonLight/refs/heads/main/Roblox_RemoteEvents_Spy")
+        print("Loaded Remote Events Spy Script: this script use to catch remote events function... i guess it's what it call?")
+    elseif wis[1] == "-infyield" then
+        paste("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source")
+        print("Loaded Infinite Yield: a popular admin script!")
     elseif wis[1] == "-cmds" then
-        print("List of all commands: -to [username/?], -tspeed [speed/?], -tp [username/?], -plr [list], -cmds")
+        print("List of all commands: -to [username/?], -tspeed [speed/?], -tp [username/?], -plr [list], -redz, -dex, -rspy, -infyield, -cmds")
         if game:GetService("CoreGui"):FindFirstChild("DeveloperConsole") == nil then
             game:GetService("StarterGui"):SetCore("DevConsoleVisible", true)
         end
@@ -164,6 +176,9 @@ plr.Chatted:Connect(DE_Commands)
 ntf("Blox Fruits Commands Script", "Make by HH2k3, alot useful commands 'type -cmds' to shown all commands!", 4)
 
 plr.CharacterAdded:Connect(function()
-    wait(3.5)
+    wait(2)
+    if current_tw then
+        current_tw:Cancel()
+    end
     plr.Chatted:Connect(DE_Commands)
 end)
