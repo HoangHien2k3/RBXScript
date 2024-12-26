@@ -1,12 +1,42 @@
 -- DE_Commands --
-local plrs, plr, cr, hm, hrp, hrp_pos, hm_health, ts, stg
+game:IsLoaded()
+task.wait()
+
+local Sea_1 = game:GetService("Workspace").Map:FindFirstChild("MobBoss")
+local Sea_2 = game:GetService("Workspace").Map:FindFirstChild("GreenBit")
+local Sea_3 = game:GetService("Workspace").Map:FindFirstChild("TikiOutpost")
+
+local plrs, plr, cr, hm, hrp, hrp_pos, hm_health, ts, stg, rs
 local tweencommands_table, tweenspeeds_table, teleport_instance_table
 local twspeed, current_tw, pre_username
 local paste_notify_title, error_notify_title, success_notify_title
+local cancel_tween_screengui, cancel_tween_button, cancel_tween_button_ui
+
+cancel_tween_screengui = Instance.new("ScreenGui")
+cancel_tween_screengui.Name = "CancelTweenScript"
+cancel_tween_screengui.Parent = game.CoreGui
+
+cancel_tween_button = Instance.new("TextButton")
+cancel_tween_button_ui = Instance.new("UICorner")
+
+cancel_tween_button.Parent = cancel_tween_screengui
+cancel_tween_button.BackgroundColor3 = Color3.new(0, 0, 0)
+cancel_tween_button.BackgroundTransparency = 0.5
+cancel_tween_button.Position = UDim2.new(0.84, 0, -0.1, 0)
+cancel_tween_button.Size = UDim2.new(0.05, 0, 0.1, 0)
+cancel_tween_button.TextScaled = true
+cancel_tween_button.TextColor3 = Color3.new(1, 1, 1)
+cancel_tween_button.Font = Enum.Font.Code
+cancel_tween_button.Text = "Tweening: OFF"
+cancel_tween_button.Visible = true
+
+cancel_tween_button_ui.Parent = cancel_tween_button
+cancel_tween_button_ui.CornerRadius = UDim.new(0, 10)
 
 plrs = game:GetService("Players")
 ts = game:GetService("TweenService")
 stg = game:GetService("StarterGui")
+rs = game:GetService("RunService")
 
 plr = plrs.LocalPlayer
 cr = plr.Character
@@ -85,6 +115,43 @@ function printplrs()
     end
 end
 
+function create_part(part_cframe, part_name)
+    local epoint = Instance.new("Part")
+    epoint.Parent = game.Workspace
+    epoint.CFrame = part_cframe
+    epoint.Size = Vector3.new(0.1, 0.1, 0.1)
+    epoint.CanCollide = false
+    epoint.Anchored = true
+    epoint.Color = Color3.new(0, 1, 1)
+    epoint.Transparency = 0.9
+    epoint.Name = part_name
+end
+
+if Sea_1 then
+    ntf("You're in First Sea", "World Detected: Starter Sea", 1.5)
+elseif Sea_2 then
+    ntf("You're in Second Sea", "World Detected: Second Sea", 1.5)
+elseif Sea_3 then
+    ntf("You're in Third Sea", "World Detected: Third Sea", 1.5)
+    create_part(CFrame.new(-1096, 64, -14522), "EVS_Island")
+else
+    print("Error: failed to detecting Sea!")
+end
+
+function to_islands(IslandName, TH_eight)
+    local island_x = game:GetService("Workspace"):FindFirstChild(IslandName)
+    if island_x then
+        local plr_pos = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position
+        cancel_prtw()
+        local goal_island = {CFrame = island_x.CFrame + TH_eight}
+        local twi4_island = ct_info(plr_pos, goal_island.CFrame.Position)
+        current_tw = ts:Create(game.Players.LocalPlayer.Character.HumanoidRootPart, twi4_island, goal_island)
+        current_tw:Play()
+    else
+        ntf(error_notify_title, "Not found Islands, Failed to teleportation !", 1.5)
+    end
+end
+
 local IsActivated = false
 function DE_Commands(Aesthetic)
     local wis = string.split(Aesthetic, " ")
@@ -153,6 +220,32 @@ function DE_Commands(Aesthetic)
                     end
                 end
             end
+        elseif wis[1] == "-island" then
+            if #wis == 2 then
+                if wis[2] == "christmas" then
+                    to_islands("EVS_Island", Vector3.new(0, 9, 0))
+                end
+            end
+        elseif wis[1] == "-raid" then
+            if #wis == 2 then
+                if wis[2] == "awk" then
+                    local args = {
+                        [1] = "Awakener",
+                        [2] = "Awaken"
+                    }
+                    
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+                    ntf("Fruit Awakening", "Success awakening your fruit, if not then check your fragments!", 1.5)
+                elseif wis[2] == "unawk" then
+                    local args = {
+                        [1] = "Awakener",
+                        [2] = "Teleport"
+                    }
+                    
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+                    ntf("Fruit Awakening", "Successfully teleport you back to previous place.", 1.5)
+                end
+            end
         elseif wis[1] == "-redz" then
             paste("https://raw.githubusercontent.com/NganHa2k3/Others/refs/heads/Creator/BloxFruits_ScriptHub_1")
             print("Loaded REDZ Script Hub by Creator 'realredz' this script not by me, i'm just put in here for quickly loaded script.")
@@ -184,4 +277,28 @@ plr.CharacterAdded:Connect(function()
         current_tw:Cancel()
     end
     plr.Chatted:Connect(DE_Commands)
+end)
+
+local IsCurrent_Tw = false
+rs.RenderStepped:Connect(function()
+    if current_tw then
+        IsCurrent_Tw = false
+        cancel_tween_button.Text = "Tweening: ON"
+        cancel_tween_button.TextColor3 = Color3.new(1, 1, 0)
+    else
+        if not IsCurrent_Tw then
+            IsCurrent_Tw = true
+            cancel_tween_button.Text = "Tweening: OFF"
+            cancel_tween_button.TextColor3 = Color3.new(1, 1, 1)
+        end
+    end
+end)
+
+cancel_tween_button.MouseButton1Click:Connect(function()
+    if current_tw then
+        current_tw:Cancel()
+        clear_username_storage()
+    else
+        ntf(error_notify_title, "Tweening Progress: currently not tweening to anywhere can't toggled!", 1.5)
+    end
 end)
