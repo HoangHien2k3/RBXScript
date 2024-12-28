@@ -1,6 +1,7 @@
 -- DE_Commands --
 game:IsLoaded()
 task.wait()
+print("◇HH2K3: Script Loaded!")
 
 local Sea_1 = game:GetService("Workspace").Map:FindFirstChild("MobBoss")
 local Sea_2 = game:GetService("Workspace").Map:FindFirstChild("GreenBit")
@@ -521,7 +522,7 @@ end)
 paste_no_notify("https://raw.githubusercontent.com/HoangHien2k3/RBXScript_AR/refs/heads/main/KeepScript")
 
 if _G.ExecuteScriptAfterTeleport then
-    _G.ExecuteScriptAfterTeleport("")
+    _G.ExecuteScriptAfterTeleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/HoangHien2k3/RBXScript/refs/heads/Place/BloxFruits%20DE%20Commands'))()")
 else
     ntf(error_notify_title, "Can't re-executing script after rejoining or server hop !", 2.5)
 end
