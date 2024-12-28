@@ -115,6 +115,53 @@ function printplrs()
     end
 end
 
+function opendevconsole()
+    if game:GetService("CoreGui"):FindFirstChild("DeveloperConsole") == nil then
+        game:GetService("StarterGui"):SetCore("DevConsoleVisible", true)
+    end
+end
+
+function buyallhaki()
+    local args = {
+    [1] = "BuyHaki",
+    [2] = "Soru"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+wait(1)
+local args = {
+    [1] = "BuyHaki",
+    [2] = "Soru"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+wait(1)
+local args = {
+    [1] = "BuyHaki",
+    [2] = "Soru"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+wait(1)
+local args = {
+    [1] = "KenTalk",
+    [2] = "Buy"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+ntf(success_notify_title, "Successfully bought all haki ability if not it mean your beli/money, for ken haki type '-saber' to do get it!", 2)
+end
+
+function purchaseditem(iName)
+    local args = {
+    [1] = "BuyItem",
+    [2] = iName
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+ntf(success_notify_title, "You've bought a " .. iName, 1.5)
+end
+
 function create_part(part_cframe, part_name)
     local epoint = Instance.new("Part")
     epoint.Parent = game.Workspace
@@ -129,11 +176,27 @@ end
 
 if Sea_1 then
     ntf("You're in First Sea", "World Detected: Starter Sea", 1.5)
+    create_part(CFrame.new(1550, 57, -2983), "ChristmasEvents_Island")
+    create_part(CFrame.new(-2867, 400, 2128), "MarineStarter_Island")
+    create_part(CFrame.new(1064, 400, 1443), "PirateStarter_Island")
+    create_part(CFrame.new(-798, 400, 1605), "MiddleTown_Island")
+    create_part(CFrame.new(-1442, 400, 20), "Jungle_Island")
+    create_part(CFrame.new(-1127, 400, 4052), "PiratesVillage_Island")
+    create_part(CFrame.new(1077, 400, 4371), "Desert_Island")
+    create_part(CFrame.new(1300, 400, -1376), "Snowy_Island")
+    create_part(CFrame.new(-5044, 400, 4326), "MarineFord_Island")
+    create_part(CFrame.new(-1690, 400, -3145), "Arena_Island")
+    create_part(CFrame.new(5214, 400, 734), "Prison_Island")
+    create_part(CFrame.new(-5616, 400, 8754), "MagmaVillage_Island")
+    create_part(CFrame.new(5668, 580, 4301), "Fountain_Island")
+    create_part(CFrame.new(4047, 400, -1816), "Underwater_Island")
+    create_part(CFrame.new(-4692, 1020, -1887), "LowerSky_Island")
+    create_part(CFrame.new(-7965, 6050, -1401), "HighestSky_Island")
 elseif Sea_2 then
     ntf("You're in Second Sea", "World Detected: Second Sea", 1.5)
 elseif Sea_3 then
     ntf("You're in Third Sea", "World Detected: Third Sea", 1.5)
-    create_part(CFrame.new(-1096, 64, -14522), "EVS_Island")
+    create_part(CFrame.new(-1096, 64, -14522), "ChristmasEvents_Island")
 else
     print("Error: failed to detecting Sea!")
 end
@@ -215,15 +278,55 @@ function DE_Commands(Aesthetic)
             if #wis == 2 then
                 if wis[2] == "list" then
                     printplrs()
-                    if game:GetService("CoreGui"):FindFirstChild("DeveloperConsole") == nil then
-                        game:GetService("StarterGui"):SetCore("DevConsoleVisible", true)
-                    end
+                    opendevconsole()
                 end
             end
         elseif wis[1] == "-island" then
             if #wis == 2 then
                 if wis[2] == "christmas" then
-                    to_islands("EVS_Island", Vector3.new(0, 9, 0))
+                    to_islands("ChristmasEvents_Island", Vector3.new(0, 9, 0))
+                elseif wis[2] == "marinestarter" or wis[2] == "ms" then
+                    to_islands("MarineStarter_Island", Vector3.new(0, 9, 0))
+                elseif wis[2] == "piratestarter" or wis[2] == "ps" then
+                    to_islands("PirateStarter_Island", Vector3.new(0, 9, 0))
+                elseif wis[2] == "middletown" or wis[2] == "mt" then
+                    to_islands("MiddleTown_Island", Vector3.new(0, 9, 0))
+                elseif wis[2] == "jungle" or wis[2] == "j" then
+                    to_islands("Jungle_Island", Vector3.new(0, 9, 0))
+                elseif wis[2] == "piratevillage" or wis[2] == "pv" then
+                    to_islands("PiratesVillage_Island", Vector3.new(0, 9, 0))
+                elseif wis[2] == "desert" or wis[2] == "d" then
+                    to_islands("Desert_Island", Vector3.new(0, 9, 0))
+                elseif wis[2] == "snowy" or wis[2] == "s" then
+                    to_islands("Snowy_Island", Vector3.new(0, 9, 0))
+                elseif wis[2] == "marineford" or wis[2] == "mf" then
+                    to_islands("MarineFord_Island", Vector3.new(0, 9, 0))
+                elseif wis[2] == "arena" or wis[2] == "a" then
+                    to_islands("Arena_Island", Vector3.new(0, 9, 0))
+                elseif wis[2] == "prison" or wis[2] == "p" then
+                    to_islands("Prison_Island", Vector3.new(0, 9, 0))
+                elseif wis[2] == "magmavillage" or wis[2] == "mv" then
+                    to_islands("MagmaVillage_Island", Vector3.new(0, 9, 0))
+                elseif wis[2] == "fountain" or wis[2] == "f" then
+                    to_islands("Fountain_Island", Vector3.new(0, 9, 0))
+                elseif wis[2] == "underwater" or wis[2] == "uw" then
+                    to_islands("Underwater_Island", Vector3.new(0, 9, 0))
+                elseif wis[2] == "lowersky" or wis[2] == "ls" then
+                    to_islands("LowerSky_Island", Vector3.new(0, 9, 0))
+                elseif wis[2] == "highersky" or wis[2] == "hs" then
+                    to_islands("HighestSky_Island", Vector3.new(0, 9, 0))
+                elseif wis[2] == "?" then
+                    if Sea_1 then
+                        print("List of all island name, do '-island' with these name for teleportation: ms, ps, mt, j, pv, d, s, mf, a, p, mv, f, uw, ls, hs or ? for shown command info...")
+                        print("Others way or name of the island for teleportation: marinestarter, piratestarter, middletown, jungle, piratevillage, desert, snowy, marineford, arena, prison, magmavillage, fountain, underwater, lowersky, highersky. That's all !")
+                        opendevconsole()
+                    elseif Sea_2 then
+                        print("Nothing for now")
+                    elseif Sea_3 then
+                        print("Nothing for now")
+                    else
+                        print("Can't know what is your Sea World!")
+                    end
                 end
             end
         elseif wis[1] == "-raid" then
@@ -246,6 +349,109 @@ function DE_Commands(Aesthetic)
                     ntf("Fruit Awakening", "Successfully teleport you back to previous place.", 1.5)
                 end
             end
+        elseif wis[1] == "-random" then
+            if #wis == 2 then
+                if wis[2] == "fruit" or wis[2] == "f" then
+                    local args = {
+                        [1] = "Cousin",
+                        [2] = "Buy"
+                    }
+                    
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+                    ntf(success_notify_title, "You've rolled a fruit, check it in your inventory if not then look at your beli!", 2)
+                end
+            end
+        elseif wis[1] == "-buy" then
+            if #wis == 2 then
+                if wis[2] == "haki" then
+                    buyallhaki()
+                elseif wis[2] == "?" then
+                    print("List of -buy command: any item name u know!")
+                    opendevconsole()
+                end
+            elseif #wis == 3 then
+                local in4_iName = table.concat(wis, " ", 2)
+                purchaseditem(in4_iName)
+            end
+        elseif wis[1] == "-melee" or wis[1] == "-m" then
+            if #wis == 2 then
+                if wis[2] == "darkleg" or wis[2] == "1" then
+                    local args = {
+                        [1] = "BuyBlackLeg"
+                    }
+                    
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+                elseif wis[2] == "electro" or wis[2] == "2" then
+                    local args = {
+                        [1] = "BuyElectro"
+                    }
+                    
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+                elseif wis[2] == "fishman" or wis[2] == "3" then
+                    local args = {
+                        [1] = "BuyFishmanKarate"
+                    }
+                    
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+                elseif wis[2] == "dragonbreath" or wis[2] == "4" then
+                    local args = {
+                        [1] = "BuyDragonBreath"
+                    }
+                    
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+                elseif wis[2] == "superhuman" or wis[2] == "5" then
+                    local args = {
+                        [1] = "BuySuperhuman"
+                    }
+                    
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+                elseif wis[2] == "?" then
+                    print("ALL Fighting Style name: darkleg, electro, fishman, dragonbreath, superhuman")
+                    print("Others way: 1, 2, 3, 4, 5...")
+                    opendevconsole()
+                end
+            end
+        elseif wis[1] == "-team" then
+            if #wis == 2 then
+                if wis[2] == "pirates" or wis[2] == "p" then
+                    local args = {
+                        [1] = "SetTeam",
+                        [2] = "Pirates"
+                    }
+                    
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+                    ntf(success_notify_title, "Joined Team Pirates !", 1.2)
+                elseif wis[2] == "marines" or wis[2] == "m" then
+                    local args = {
+                        [1] = "SetTeam",
+                        [2] = "Marines"
+                    }
+                    
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+                    ntf(success_notify_title, "Joined Team Marines !", 1.2)
+                end
+            end
+        elseif wis[1] == "-refunds" then
+            local args = {
+                [1] = "BlackbeardReward",
+                [2] = "Refund",
+                [3] = "2"
+            }
+            
+            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+            ntf(success_notify_title, "Reset Stat !", 1.5)
+        elseif wis[1] == "-reroll" and wis[2] == "race" then
+            local args = {
+                [1] = "BlackbeardReward",
+                [2] = "Reroll",
+                [3] = "2"
+            }
+            
+            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+            ntf(success_notify_title, "Race Changed To: IDK", 1.5)
+        elseif wis[1] == "-chestfarm" or wis[1] == "-c" then
+            paste("https://raw.githubusercontent.com/NganHa2k3/Tensura/refs/heads/main/BloxFruits_Update_Dragon_ChestFarm_V001")
+            print("Chest Farm Activated, Reset Character or Died to Deactivated!")
         elseif wis[1] == "-redz" then
             paste("https://raw.githubusercontent.com/NganHa2k3/Others/refs/heads/Creator/BloxFruits_ScriptHub_1")
             print("Loaded REDZ Script Hub by Creator 'realredz' this script not by me, i'm just put in here for quickly loaded script.")
@@ -259,10 +465,8 @@ function DE_Commands(Aesthetic)
             paste("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source")
             print("Loaded Infinite Yield: a popular admin script!")
         elseif wis[1] == "-cmds" then
-            print("List of all commands: -to [username/?], -tspeed [speed/?], -tp [username/?], -plr [list], -redz, -dex, -rspy, -infyield, -cmds")
-            if game:GetService("CoreGui"):FindFirstChild("DeveloperConsole") == nil then
-                game:GetService("StarterGui"):SetCore("DevConsoleVisible", true)
-            end
+            print("List of all commands: -to, -moveto, -goto, -flyto [username/?], -tspeed, -tweenspeed [value/?], -tp, -teleport, -transfer [username/?], -plr [list], -island [island/?], -raid [awk/unawk], -random [fruit/f], -buy [haki/?], -melee, -m [1, 2, 3, 4, 5, 6.../?], -team [marines/pirates], -refunds, -reroll [race], -chestfarm, -c, -redz, -dex, -rspy, -infyield, -cmds and more in future, idk !")
+            opendevconsole()
         end
         IsActivated = false
     end
