@@ -1,0 +1,6 @@
+-- [[ Getting Started: This is the Script from my first account on Github, now alt and this is the new main account... ]] --
+-- Wait for the Game is successfully loaded --
+game:IsLoaded()
+task.wait()
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/NganHa2k3/Tensura/slime/WorldsVoice_B"))()
