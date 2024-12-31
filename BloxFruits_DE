@@ -461,6 +461,9 @@ function DE_Commands(Aesthetic)
         elseif wis[1] == "-redz" then
             paste("https://raw.githubusercontent.com/NganHa2k3/Others/refs/heads/Creator/BloxFruits_ScriptHub_1")
             print("Loaded REDZ Script Hub by Creator 'realredz' this script not by me, i'm just put in here for quickly loaded script.")
+        elseif wis[1] == "-hoho" then
+            paste("https://raw.githubusercontent.com/ascn123/HOHO_H/main/Loading_UI")
+            print("Loaded Hoho Hub Script by Creator 'acsu12e' same as realredz comment...")
         elseif wis[1] == "-dex" then
             paste("https://raw.githubusercontent.com/HoangHien2k3/MoonLight/refs/heads/main/Roblox_DexExplorer_4Mobile")
             print("Loaded Dex Explorer Script by Moon, make for inf yield edited by someone for mobile version... this is a backup saved!")
@@ -471,7 +474,7 @@ function DE_Commands(Aesthetic)
             paste("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source")
             print("Loaded Infinite Yield: a popular admin script!")
         elseif wis[1] == "-cmds" then
-            print("List of all commands: -to, -moveto, -goto, -flyto [username/?], -tspeed, -tweenspeed [value/?], -tp, -teleport, -transfer [username/?], -plr [list], -island [island/?], -raid [awk/unawk], -awk, -awakening, -titles, -random [fruit/f], -buy [haki/?], -melee, -m [1, 2, 3, 4, 5, 6.../?], -team [marines/pirates], -refunds, -reroll [race], -chestfarm, -c, -redz, -dex, -rspy, -infyield, -cmds and more in future, idk !")
+            print("List of all commands: -to, -moveto, -goto, -flyto [username/?], -tspeed, -tweenspeed [value/?], -tp, -teleport, -transfer [username/?], -plr [list], -island [island/?], -raid [awk/unawk], -awk, -awakening, -titles, -random [fruit/f], -buy [haki/?], -melee, -m [1, 2, 3, 4, 5, 6.../?], -team [marines/pirates], -refunds, -reroll [race], -chestfarm, -c, -redz, -hoho, -dex, -rspy, -infyield, -cmds and more in future, idk !")
             opendevconsole()
         end
         IsActivated = false
