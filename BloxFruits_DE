@@ -349,6 +349,12 @@ function DE_Commands(Aesthetic)
                     ntf("Fruit Awakening", "Successfully teleport you back to previous place.", 1.5)
                 end
             end
+        elseif wis[1] == "-awk" or wis[1] == "-awakening" then
+            game:GetService("Players").LocalPlayer.PlayerGui.Main.AwakeningToggler.Visible = true
+            ntf("Fruit Awakening", "Opened Awakening Toggler Gui!", 1.25)
+        elseif wis[1] == "-titles" then
+            game:GetService("Players").LocalPlayer.PlayerGui.Main.Titles.Visible = true
+            ntf(success_notify_title, "Opened Titles Gui!", 1.25)
         elseif wis[1] == "-random" then
             if #wis == 2 then
                 if wis[2] == "fruit" or wis[2] == "f" then
@@ -465,7 +471,7 @@ function DE_Commands(Aesthetic)
             paste("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source")
             print("Loaded Infinite Yield: a popular admin script!")
         elseif wis[1] == "-cmds" then
-            print("List of all commands: -to, -moveto, -goto, -flyto [username/?], -tspeed, -tweenspeed [value/?], -tp, -teleport, -transfer [username/?], -plr [list], -island [island/?], -raid [awk/unawk], -random [fruit/f], -buy [haki/?], -melee, -m [1, 2, 3, 4, 5, 6.../?], -team [marines/pirates], -refunds, -reroll [race], -chestfarm, -c, -redz, -dex, -rspy, -infyield, -cmds and more in future, idk !")
+            print("List of all commands: -to, -moveto, -goto, -flyto [username/?], -tspeed, -tweenspeed [value/?], -tp, -teleport, -transfer [username/?], -plr [list], -island [island/?], -raid [awk/unawk], -awk, -awakening, -titles, -random [fruit/f], -buy [haki/?], -melee, -m [1, 2, 3, 4, 5, 6.../?], -team [marines/pirates], -refunds, -reroll [race], -chestfarm, -c, -redz, -dex, -rspy, -infyield, -cmds and more in future, idk !")
             opendevconsole()
         end
         IsActivated = false
